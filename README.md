@@ -7,7 +7,7 @@ Created by: Oliwer Szmytkowski
 <br>
 Repository first created: 27/01/2025 
 <br>
-Project submitted: [date]<b>
+Project submitted: [date]</b>
 <br>
 
-[A written description of my website, can inc. video script]
+<p>[A written description of my website, can inc. video script]</p>
