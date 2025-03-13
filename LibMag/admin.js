@@ -1,6 +1,8 @@
+// BOOK MANAGEMENT
+
 //Function to fetch and display books from database
 function fetchBooks() {
-    fetch("admin.php",
+    fetch("books.php",
         {
             method: "GET",
             headers: { 'Content-Type': 'application/json' }
@@ -97,8 +99,8 @@ function addBook() {
 
     console.log("Sending data:", JSON.stringify(bookData));
 
-    //Send data to admin.php
-    fetch("admin.php", {
+    //Send data to books.php
+    fetch("books.php", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookData)
@@ -178,8 +180,8 @@ function removeBook(button, event) {
         //Retrieve original ISBN stored in row's data attribute
         let isbn = row.dataset.originalIsbn;
 
-        //Send DELETE request to admin.php using ISBN
-        fetch("admin.php", 
+        //Send DELETE request to books.php using ISBN
+        fetch("books.php", 
         {
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' },
@@ -372,7 +374,7 @@ function saveChanges(row, button) {
     }
 
     //Send PUT request to update book on server
-    fetch("admin.php",
+    fetch("books.php",
         {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
@@ -425,6 +427,53 @@ function saveChanges(row, button) {
         });
 }
 
+// USER MANAGEMENT
+function fetchUsers() {
+    fetch("users.php", {
+        method: "GET",
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok.");
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            let table = document.getElementById("userList").getElementsByTagName("tbody")[0];
+            table.innerHTML = ""; //Clear existing rows
+            data.users.forEach(user => {
+                let newRow = table.insertRow(0);
+                newRow.insertCell(0).textContent = user.username;
+                newRow.insertCell(1).textContent = user.email;
+                newRow.insertCell(2).textContent = user.role;
+
+                let actionCell = newRow.insertCell(3);
+                let removeButton = document.createElement("button");
+                removeButton.textContent = "Remove";
+                removeButton.type = "button";
+                removeButton.onclick = function(event) {
+                    removeUser(removeButton, event);
+                };
+                let editButton = document.createElement("button");
+                editButton.textContent = "Edit";
+                editButton.type = "button";
+                editButton.onclick = function() {
+                    editUser(editButton);
+                };
+                actionCell.appendChild(removeButton);
+                actionCell.appendChild(editButton);
+            });
+        } else {
+            console.error("Error fetching users: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching users: ", error);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // Now the DOM is fully loaded, add the event listener
     const addButton = document.getElementById("addBook");
@@ -435,4 +484,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     // Load books from database when page loads
     fetchBooks();
+    fetchUsers();
 });
