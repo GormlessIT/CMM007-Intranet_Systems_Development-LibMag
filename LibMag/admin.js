@@ -17,7 +17,7 @@ function fetchBooks() {
                 let table = document.getElementById("bookList").getElementsByTagName("tbody")[0];
                 table.innerHTML = "";   //Clears table body
                 data.books.forEach(book => {
-                    let newRow = table.insertRow();
+                    let newRow = table.insertRow(0); //0 = always appends to first table row
                     //original ISBN stored in a data attribute (used as unique identifier)
                     newRow.dataset.originalIsbn = book.isbn;
                     newRow.insertCell(0).textContent = book.title;
@@ -126,7 +126,7 @@ function addBook() {
 
     //Create a new row instance in the book display table
     let table = document.getElementById("bookList").getElementsByTagName("tbody")[0];
-    let newRow = table.insertRow();
+    let newRow = table.insertRow(0);
 
     //Inserts the table cells with values entered in the form
     newRow.insertCell(0).textContent = title;
