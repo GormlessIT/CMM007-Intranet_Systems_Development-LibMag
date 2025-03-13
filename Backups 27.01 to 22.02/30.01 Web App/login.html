@@ -1,0 +1,59 @@
+<!-- Login Page -->
+
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LibMag Login</title>
+	<link rel="icon" type="image/x-icon" href="logo.ico">
+</head>
+
+<body>
+	<header>
+		<h1>LibMag - The Library Management System</h1>
+	</header>
+
+	<main>
+		<!--Login module-->
+		<div id = "login">
+			<form>
+				<fieldset>
+					<!--Form title-->
+					<legend>Login</legend>
+					<!--Username box-->
+					<div id="usernameField">
+						<label for="username">Username:</label>
+						<input type="text" name="username" id="username" placeholder="Enter Username">
+					</div>
+					<!--Password box-->
+					<div id="passField">
+						<label for="password">Password:</label>
+						<input type="password" name="password" id="password" placeholder="Enter Password">
+						<button type="button" id="showHidePassword">Show</button>
+					</div>
+
+					<!--User Role dropdown-->
+					<div id="roleField">
+					<label for="userRole">User Role:</label>
+						<select id="userRole" name="userRole">
+							<option value="">--Select--</option>
+							<option value="user">User</option>
+							<option value="admin">Admin</option>
+						</select>
+					</div>
+					<!--Login button-->
+					<button type="button" onclick="redirectToPage()">Login</button>
+				</fieldset>
+			</form>
+		</div>
+
+		<!--Links to JavaScript file-->
+		<script src="index.js"></script>
+	</main>
+</body>
+
+<footer>
+	<p>Created by Oliwer Szmytkowski 2025</p>
+</footer>
+</html>
