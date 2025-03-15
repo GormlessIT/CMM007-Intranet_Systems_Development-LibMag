@@ -1,7 +1,8 @@
 <!-- Login Page -->
 
 <!DOCTYPE html>
-<html lang ="en">
+<html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,36 @@
 </head>
 
 <body>
-<?php require('login.php'); ?>
+
+	<!--Navbar-->
+	<script>
+		window.addEventListener('DOMContentLoaded', function () {
+			fetch('navbar.html')
+				.then(response => response.text())
+				.then(data => {
+					document.body.insertAdjacentHTML('afterbegin', data);
+
+					// Set user info based on session
+					const userRole = sessionStorage.getItem('userRole');
+					const username = sessionStorage.getItem('username') || "Guest";
+
+					if (userRole === "admin") {
+						document.getElementById("user-info").textContent = `Logged in as admin: ${username}`;
+					} else if (userRole === "user") {
+						document.getElementById("user-info").textContent = `Logged in as: ${username}`;
+					} else {
+						document.getElementById("user-info").textContent = "Logged in as: dev";
+					}
+
+					// Handle logout
+					document.getElementById("logout-btn").addEventListener('click', function () {
+						sessionStorage.clear(); // Clear user session
+						window.location.href = "login.html"; // Redirect to login page
+					});
+				});
+		});
+	</script>
+
 	<header>
 		<h1>LibMag - The Library Management System</h1>
 	</header>
@@ -27,18 +57,20 @@
 					<!--Username box-->
 					<div id="usernameField">
 						<label for="username">Username: <span style="color: red;">*</span></label>
-						<input type="text" name="username" id="username" placeholder="Enter Username" required maxlength="255" size="25">
+						<input type="text" name="username" id="username" placeholder="Enter Username" required
+							maxlength="255" size="25">
 					</div>
 					<!--Password box-->
 					<div id="passField">
 						<label for="password">Password: <span style="color: red;">*</span></label>
-						<input type="password" name="password" id="password" placeholder="Enter Password" required maxlength="255" size="25">
+						<input type="password" name="password" id="password" placeholder="Enter Password" required
+							maxlength="255" size="25">
 						<button type="button" id="showHidePassword">Show</button>
 					</div>
 
 					<!--User Role dropdown-->
 					<div id="roleField">
-					<label for="role">User Role: <span style="color:red;">*</span></label>
+						<label for="role">User Role: <span style="color:red;">*</span></label>
 						<select id="role" name="role">
 							<option value="">--Select--</option>
 							<option value="user">User</option>
@@ -58,4 +90,5 @@
 <footer>
 	<p>Created by Oliwer Szmytkowski 2025</p>
 </footer>
+
 </html>

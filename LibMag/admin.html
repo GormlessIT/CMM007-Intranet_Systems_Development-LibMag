@@ -11,6 +11,35 @@
 </head>
 
 <body>
+	<!--Navbar-->
+	<script>
+		window.addEventListener('DOMContentLoaded', function () {
+			fetch('navbar.html')
+				.then(response => response.text())
+				.then(data => {
+					document.body.insertAdjacentHTML('afterbegin', data);
+
+					// Set user info based on session
+					const userRole = sessionStorage.getItem('userRole');
+					const username = sessionStorage.getItem('username') || "Guest";
+
+					if (userRole === "admin") {
+						document.getElementById("user-info").textContent = `Logged in as admin: ${username}`;
+					} else if (userRole === "user") {
+						document.getElementById("user-info").textContent = `Logged in as: ${username}`;
+					} else {
+						document.getElementById("user-info").textContent = "Logged in as: dev";
+					}
+
+					// Handle logout
+					document.getElementById("logout-btn").addEventListener('click', function () {
+						sessionStorage.clear(); // Clear user session
+						window.location.href = "login.html"; // Redirect to login page
+					});
+				});
+		});
+	</script>
+	
 	<header>
 		<h1>Admin Page</h1>
 	</header>
@@ -20,7 +49,7 @@
 		<div id="bookManagement">
 			<h2>Book Management</h2>
 			<!--Add Books-->
-			<div id="addBook">
+			<div id="addBookForm">
 				<form>
 					<fieldset>
 						<!--Form title-->
@@ -100,23 +129,23 @@
 				<form>
 					<fieldset>
 						<legend>Register Users:</legend>
-						<div id="username">
+						<div id="usernameContainer">
 							<label for="username">Username:</label>
 							<input type="text" name="username" id="username" placeholder="Enter Username Here" required>
 						</div>
 
-						<div id="email">
+						<div id="emailContainer">
 							<label for="email">Email:</label>
 							<input type="email" name="email" id="email" placeholder="Enter Email Here" required>
 						</div>
 
-						<div id="password">
+						<div id="passwordContainer">
 							<label for="password">Password:</label>
 							<input type="password" name="password" id="password"
 								placeholder="Enter Temporary Password Here" required>
 						</div>
 
-						<div id="confirmPassword">
+						<div id="confirmPasswordContainer">
 							<label for="confirmPassword">Confirm Password:</label>
 							<input type="password" name="confirmPassword" id="confirmPassword"
 								placeholder="Confirm Password" required>
@@ -130,7 +159,7 @@
 								<option value="admin">Admin</option>
 							</select>
 						</div>
-						
+
 						<button type="submit" id="registerButton">Register New User</button>
 
 					</fieldset>
@@ -145,6 +174,7 @@
 							<tr>
 								<th>Username</th>
 								<th>Email</th>
+								<th>Password</th>
 								<th>Role</th>
 							</tr>
 						</thead>

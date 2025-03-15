@@ -181,35 +181,33 @@ function removeBook(button, event) {
         let isbn = row.dataset.originalIsbn;
 
         //Send DELETE request to books.php using ISBN
-        fetch("books.php", 
-        {
-            method: "DELETE",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ isbn: isbn })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok.");
-            }
-            return response.json();
-        })
-        .then(result => {
-            console.log("DELETE response: ", result);
-            if (result.success)
+        fetch("books.php",
             {
-                //Remove row from table
-                row.parentNode.removeChild(row);
-                alert("Book deleted successfully.");
-            } 
-            else
-            {
-                alert("Error deleting book: " + result.message);
-            }
-        })
-        .catch(error => {
-            console.error("Error in DELETE request: ", error);
-            alert("Error deleting book.");
-        });
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ isbn: isbn })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok.");
+                }
+                return response.json();
+            })
+            .then(result => {
+                console.log("DELETE response: ", result);
+                if (result.success) {
+                    //Remove row from table
+                    row.parentNode.removeChild(row);
+                    alert("Book deleted successfully.");
+                }
+                else {
+                    alert("Error deleting book: " + result.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error in DELETE request: ", error);
+                alert("Error deleting book.");
+            });
     }
 }
 
@@ -221,8 +219,7 @@ function editBook(button) {
     //Store original table cell values (except last one with buttons)
     //Allows for cancelling 
     let originalValues = [];
-    for (let i = 0; i < row.cells.length - 1; i++)
-    {
+    for (let i = 0; i < row.cells.length - 1; i++) {
         originalValues.push(row.cells[i].textContent);
     }
 
@@ -289,22 +286,19 @@ function editBook(button) {
     let cancelButton = document.createElement("button");
     cancelButton.textContent = "Cancel";
     cancelButton.type = "button";
-    cancelButton.onclick = function()
-    {
+    cancelButton.onclick = function () {
         cancelEdit(row, button, cancelButton);
     };
     actionCell.appendChild(cancelButton);
 }
 
 //Function to cancel edited changes
-function cancelEdit(row, saveButton, cancelButton)
-{
+function cancelEdit(row, saveButton, cancelButton) {
     //Retrieve original values from data attribute
     let originalValues = JSON.parse(row.dataset.originalValues);
 
     //Restores each cell's contents (except last cell)
-    for (let i = 0; i < row.cells.length - 1; i++)
-    {
+    for (let i = 0; i < row.cells.length - 1; i++) {
         row.cells[i].textContent = originalValues[i];
     }
 
@@ -314,8 +308,7 @@ function cancelEdit(row, saveButton, cancelButton)
 
     //Resets "Save Changes" button back to "Edit"
     saveButton.textContent = "Edit";
-    saveButton.onclick = function()
-    {
+    saveButton.onclick = function () {
         editBook(saveButton);
     };
 
@@ -403,10 +396,9 @@ function saveChanges(row, button) {
                 }
                 //Update stored original ISBN to new one
                 row.dataset.originalIsbn = updatedData.isbn;
-                
+
                 //Remove cancel button if it exists
-                if (row.cancelButton)
-                {
+                if (row.cancelButton) {
                     row.cancelButton.remove();
                     delete row.cancelButton;
                 }
@@ -433,56 +425,452 @@ function fetchUsers() {
         method: "GET",
         headers: { 'Content-Type': 'application/json' }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Network response was not ok.");
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            let table = document.getElementById("userList").getElementsByTagName("tbody")[0];
-            table.innerHTML = ""; //Clear existing rows
-            data.users.forEach(user => {
-                let newRow = table.insertRow(0);
-                newRow.insertCell(0).textContent = user.username;
-                newRow.insertCell(1).textContent = user.email;
-                newRow.insertCell(2).textContent = user.role;
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok.");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                let table = document.getElementById("userList").getElementsByTagName("tbody")[0];
+                table.innerHTML = ""; //Clear existing rows
+                data.users.forEach(user => {
+                    let newRow = table.insertRow(0);
+                    //Store oriignal email for correct reference to user
+                    newRow.dataset.originalEmail = user.email;
+                    newRow.insertCell(0).textContent = user.username;
+                    newRow.insertCell(1).textContent = user.email;
+                    newRow.insertCell(2).textContent = "**********";    //Hide password
+                    newRow.insertCell(3).textContent = user.role;
 
-                let actionCell = newRow.insertCell(3);
-                let removeButton = document.createElement("button");
-                removeButton.textContent = "Remove";
-                removeButton.type = "button";
-                removeButton.onclick = function(event) {
-                    removeUser(removeButton, event);
-                };
-                let editButton = document.createElement("button");
-                editButton.textContent = "Edit";
-                editButton.type = "button";
-                editButton.onclick = function() {
-                    editUser(editButton);
-                };
-                actionCell.appendChild(removeButton);
-                actionCell.appendChild(editButton);
+                    let actionCell = newRow.insertCell(4);
+                    let removeButton = document.createElement("button");
+                    removeButton.textContent = "Remove";
+                    removeButton.type = "button";
+                    removeButton.onclick = function (event) {
+                        removeUser(removeButton, event);
+                    };
+                    let editButton = document.createElement("button");
+                    editButton.textContent = "Edit";
+                    editButton.type = "button";
+                    editButton.onclick = function () {
+                        editUser(editButton);
+                    };
+                    actionCell.appendChild(removeButton);
+                    actionCell.appendChild(editButton);
+                });
+            } else {
+                console.error("Error fetching users: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching users: ", error);
+        });
+}
+
+function registerUser() {
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+    const role = document.getElementById("role").value.trim();
+
+    //Validate no fields empty
+    if (!username || !email || !password || !confirmPassword || !role) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    //Validate password and confirm password match
+    if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    const data = { username, email, password, confirmPassword, role };
+    console.log("Registering user with data: ", data);
+
+    fetch("register.php",
+        {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok.");
+            }
+            return response.json();
+        })
+        .then(result => {
+            console.log("Registration response: ", result);
+            if (result.success) {
+                alert(result.message);
+                fetchUsers();
+                document.getElementById("username").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("password").value = "";
+                document.getElementById("confirmPassword").value = "";
+                document.getElementById("role").value = "";
+            } else {
+                alert("Registration failed: " + result.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error during registration: ", error);
+            alert("Error reigstering user.");
+        });
+}
+
+function removeUser(button, event) {
+    event.preventDefault();
+    const confirmation = confirm("Are you sure you want to delete this user?");
+    if (confirmation) {
+        let row = button.closest("tr");
+        let email = row.dataset.originalEmail;
+
+        fetch("users.php",
+            {
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok.");
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.success) {
+                    row.parentNode.removeChild(row);
+                    alert("User deleted successfully.");
+                } else {
+                    alert("Error deleting user: " + result.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error in DELETE request: ", error);
+                alert("Error deleting user.");
             });
-        } else {
-            console.error("Error fetching users: " + data.message);
+    }
+}
+
+function editUser(button) {
+    let row = button.closest("tr");
+
+    //Save original cell values for cancel
+    let originalValues = [];
+
+    for (let i = 0; i < row.cells.length - 1; i++) {
+        originalValues.push(row.cells[i].textContent);
+    }
+    row.dataset.originalValues = JSON.stringify(originalValues);
+
+    //Convert cells into input fields for edidting
+    for (let i = 0; i < row.cells.length - 1; i++) {
+        let cell = row.cells[i];
+
+        let input;
+        //Username - text input
+        if (i === 0) {
+            input = document.createElement("input");
+            input.type = "text";
+            input.value = cell.textContent.trim();
         }
-    })
-    .catch(error => {
-        console.error("Error fetching users: ", error);
-    });
+        //Email - email input
+        else if (i === 1) {
+            input = document.createElement("input");
+            input.type = "email";
+            input.value = cell.textContent.trim();
+        }
+        //Password - blank password input
+        else if (i === 2) {
+            //Container with two fields and show/hide toggles
+            let container = document.createElement("div");
+
+            //New Password input
+            let pwdInput = document.createElement("input");
+            pwdInput.type = "password";
+            pwdInput.placeholder = "New password (leave blank if unchanged)";
+            pwdInput.style.width = "80%";
+            //Show/Hide button
+            let pwdToggle = document.createElement("button");
+            pwdToggle.type = "button";
+            pwdToggle.textContent = "Show";
+            pwdToggle.addEventListener("click", function () {
+                if (pwdInput.type === "password") {
+                    pwdInput.type = "text";
+                    pwdToggle.textContent = "Hide";
+                } else {
+                    pwdInput.type = "password";
+                    pwdToggle.textContent = "Show";
+                }
+            });
+
+            container.appendChild(pwdInput);
+            container.appendChild(pwdToggle);
+
+            //"Confirm Password" input (initially hidden)
+            let br = document.createElement("br");
+            container.appendChild(br);
+
+            let confirmPwdInput = document.createElement("input");
+            confirmPwdInput.type = "password";
+            confirmPwdInput.placeholder = "Confirm new password";
+            confirmPwdInput.style.width = "80%";
+            confirmPwdInput.style.display = "none";
+            //Show/Hide button
+            let confirmToggle = document.createElement("button");
+            confirmToggle.type = "button";
+            confirmToggle.textContent = "Show";
+            confirmToggle.style.display = "none";
+            confirmToggle.addEventListener("click", function () {
+                if (confirmPwdInput.type === "password") {
+                    confirmPwdInput.type = "text";
+                    confirmToggle.textContent = "Hide";
+                } else {
+                    confirmPwdInput.type = "password";
+                    confirmToggle.textContent = "Show";
+                }
+            });
+
+            container.appendChild(confirmPwdInput);
+            container.appendChild(confirmToggle);
+
+            //When start typing new password, show confirm field
+            pwdInput.addEventListener("input", function () {
+                if (pwdInput.value.trim() !== "") {
+                    confirmPwdInput.style.display = "inline-block";
+                    confirmToggle.style.display = "inline-block";
+                } else {
+                    confirmPwdInput.style.display = "none";
+                    confirmToggle.style.display = "none";
+                }
+            });
+
+            //Instead of single input field, set cell's content to container
+            cell.appendChild(container);
+            //References to cell for later retrieval in saveUserChanges
+            cell.pwdInput = pwdInput;
+            cell.confirmPwdInput = confirmPwdInput;
+            continue;   //Skip appending input (already done above)
+        }
+        //Role - select element
+        else if (i === 3) {
+            input = document.createElement("select");
+            let roles = ["user", "admin"];
+            roles.forEach(role => {
+                let option = document.createElement("option");
+                option.value = role;
+                option.textContent = role;
+                if (role === cell.textContent.trim()) {
+                    option.selected = true;
+                }
+                input.appendChild(option);
+            });
+        }
+        input.style.width = "90%";
+        cell.textContent = "";
+        cell.appendChild(input);
+    }
+
+    //Change "Edit" button to "Save Changes"
+    button.textContent = "Save Changes";
+    button.onclick = function () {
+        saveUserChanges(row, button);
+    }
+
+    //Create cancel button
+    let actionCell = row.cells[row.cells.length - 1];
+    let cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+    cancelButton.type = "button";
+    cancelButton.onclick = function () {
+        cancelUserEdit(row, button, cancelButton);
+    };
+    actionCell.appendChild(cancelButton);
+    //Store reference to cancel button on the row for later removal
+    row.cancelButton = cancelButton;
+}
+
+function cancelUserEdit(row, saveButton, cancelButton) {
+    let originalValues = JSON.parse(row.dataset.originalValues);
+
+    //Restore each cell's contents
+    for (let i = 0; i < row.cells.length - 1; i++) {
+        if (i === 2) {
+            row.cells[i].textContent = "**********";
+        } else {
+            row.cells[i].textContent = originalValues[i];
+        }
+    }
+    cancelButton.remove();
+    saveButton.textContent = "Edit";
+    saveButton.onclick = function () {
+        editUser(saveButton);
+    };
+    delete row.dataset.originalValues;
+}
+
+function saveUserChanges(row, button) {
+    //Confirm before updating
+    if (!confirm("Are you sure you want to update the user with new details?")) {
+        return;
+    }
+
+    let cells = row.cells;
+    let updatedData = {};
+
+    //Retrieve original email from row's data attribute
+    updatedData.oldEmail = row.dataset.originalEmail;
+
+    for (let i = 0; i < row.cells.length - 1; i++) {
+        let cell = cells[i];
+        let input = cell.querySelector("input, select");
+        if (input) {
+            let value = input.value.trim();
+            if (i === 0) {
+                if (value === "") { alert("Username cannot be empty."); return; }
+                updatedData.username = value;
+            } else if (i === 1) {
+                if (value === "") { alert("Email cannot be empty."); return; }
+                updatedData.email = value;
+            } else if (i === 2) {
+                // Password field is optional – only update if a new password is provided.
+
+                //Retrieve stored password inputs
+                let pwdInput = cell.pwdInput;
+                let confirmPwdInput = cell.confirmPwdInput;
+                let newPassword = pwdInput.value.trim();
+
+                //If new password provided, check it matches confirmation
+                if (newPassword !== "") {
+                    if (newPassword !== confirmPwdInput.value.trim()) {
+                        alert("New password and confirm password fields do not match.");
+                        return;
+                    }
+                    updatedData.password = newPassword;
+                }
+            } else if (i === 3) {
+                if (value === "") { alert("Role cannot be empty."); return; }
+                updatedData.role = value;
+            }
+        }
+    }
+
+    //If password field empty, remove from update payload
+    if (!updatedData.password) {
+        delete updatedData.password;
+    }
+
+    fetch("users.php",
+        {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok.");
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.success) {
+                //Update row cells with new values
+                for (let i = 0; i < row.cells.length - 1; i++) {
+                    let cell = cells[i];
+                    let value;
+                    if (i === 0) value = updatedData.username;
+                    else if (i === 1) value = updatedData.email;
+                    else if (i === 2) value = "**********";
+                    else if (i === 3) value = updatedData.role;
+                    cell.textContent = value;
+                }
+                //Update stored email
+                row.dataset.originalEmail = updatedData.email;
+
+                //Remove cancel button if exists
+                if (row.cancelButton) {
+                    row.cancelButton.remove();
+                    delete row.cancelButton;
+                }
+
+                //Change "Save Changes" button to "Edit"
+                button.textContent = "Edit";
+                button.onclick = function () {
+                    editUser(button);
+                };
+                alert("User updated successfully.");
+            } else {
+                alert("Error updating user: " + result.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error in PUT request: ", error);
+            alert("Error updating user.");
+        });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Now the DOM is fully loaded, add the event listener
+    // Load books and users from database when page loads
+    fetchBooks();
+    fetchUsers();
+
+    //Attach add book form submit event
     const addButton = document.getElementById("addBook");
     if (addButton) {
         addButton.addEventListener("click", addBook);
     } else {
         console.log("Add Book button not found!");
     }
-    // Load books from database when page loads
-    fetchBooks();
-    fetchUsers();
+
+    //Attach register user form submit event
+    const registerForm = document.querySelector("#addUser form");
+    if (registerForm) {
+        registerForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            registerUser();
+        });
+    } else {
+        console.log("Register form not found!");
+    }
+
+    // Setup show/hide toggle for the registration password field.
+    const pwdInput = document.querySelector("div#passwordContainer > input");
+    if (pwdInput) {
+        const pwdToggle = document.createElement("button");
+        pwdToggle.type = "button";
+        pwdToggle.textContent = "Show";
+        pwdToggle.addEventListener("click", function () {
+            if (pwdInput.type === "password") {
+                pwdInput.type = "text";
+                pwdToggle.textContent = "Hide";
+            } else {
+                pwdInput.type = "password";
+                pwdToggle.textContent = "Show";
+            }
+        });
+        pwdInput.parentNode.appendChild(pwdToggle);
+    }
+
+    // Setup show/hide toggle for the registration confirm password field.
+    const cpwdInput = document.querySelector("div#confirmPasswordContainer > input");
+    if (cpwdInput) {
+        const cpwdToggle = document.createElement("button");
+        cpwdToggle.type = "button";
+        cpwdToggle.textContent = "Show";
+        cpwdToggle.addEventListener("click", function () {
+            if (cpwdInput.type === "password") {
+                cpwdInput.type = "text";
+                cpwdToggle.textContent = "Hide";
+            } else {
+                cpwdInput.type = "password";
+                cpwdToggle.textContent = "Show";
+            }
+        });
+        cpwdInput.parentNode.appendChild(cpwdToggle);
+    }
 });
