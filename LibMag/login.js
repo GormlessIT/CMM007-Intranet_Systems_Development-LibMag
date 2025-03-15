@@ -55,6 +55,12 @@ document.addEventListener("DOMContentLoaded", function()
                 console.log("Parsed JSON:", result);
                 if (result.success) {
                     showMessage(result.message, true);
+                    
+                    //Store session data 
+                    sessionStorage.setItem('userRole', result.role);
+                    sessionStorage.setItem('username', result.username);
+
+                    //Redirect to page based on role
                     setTimeout(() => {
                         if (result.role === 'admin') {
                             window.location.href = 'admin.html';

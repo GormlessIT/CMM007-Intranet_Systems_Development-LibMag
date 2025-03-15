@@ -50,7 +50,7 @@ if ($result->num_rows > 0)
     $user = $result->fetch_assoc();
     if ($password === $user['password'])
     {
-        echo json_encode(['success' => true, 'message' => 'Logged in successfully', 'role' => $role]);
+        echo json_encode(['success' => true, 'message' => 'Logged in successfully', 'role' => $role, 'username' => $username]);
     }
     else {
         echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
