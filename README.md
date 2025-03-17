@@ -110,6 +110,14 @@ Listen [::0]:8081</li>
         </table>
       </li>
     </ul>
+    <p><b>Important Note: The passwords in the database are securely hashed for security reasons. However you can login using the plaintext credentials (userpass1, userpass2 etc.) provided above</b></p>
+    <p><i>If for any reason, the hashed passwords in InsertTestUsers.sql do not work, please follow the steps below to re-generate them:</i></p>
+    <ol>
+      <li>Open generateHashes.php in a terminal</li>
+      <li>Run: php generateHashes.php</li>
+      <li>Copy the new hashes and update InsertTestUsers.sql with the new hashes (these will be the fields beginning with $2y$10$)</li>
+      <li>Re-import the SQL file into MySQL</li>
+    </ol>
   </li>
 </ol>
 
