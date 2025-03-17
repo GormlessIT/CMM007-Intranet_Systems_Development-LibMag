@@ -55,17 +55,13 @@ document.addEventListener("DOMContentLoaded", function()
                 console.log("Parsed JSON:", result);
                 if (result.success) {
                     showMessage(result.message, true);
-                    
-                    //Store session data 
-                    sessionStorage.setItem('userRole', result.role);
-                    sessionStorage.setItem('username', result.username);
 
                     //Redirect to page based on role
                     setTimeout(() => {
                         if (result.role === 'admin') {
-                            window.location.href = 'admin.html';
+                            window.location.href = 'admin.php';
                         } else {
-                            window.location.href = 'user.html';
+                            window.location.href = 'userPage.php';
                         }
                     }, 3000); // Redirect after 3 seconds
                 } else {

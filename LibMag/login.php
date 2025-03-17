@@ -1,6 +1,8 @@
 <?php
+session_start();
+
 // Ensures all PHP errors display
-error_reporting(E_ALL);     
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
@@ -45,19 +47,23 @@ $stmt->bind_param("ss", $username, $role);  //ss = string, string
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows > 0)
-{
+if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
-    if ($password === $user['password'])
-    {
+    if (password_verify($password, $user["password"])) {
+        $_SESSION['username'] = $username;
+        $_SESSION['userRole'] = $role;
         echo json_encode(['success' => true, 'message' => 'Logged in successfully', 'role' => $role, 'username' => $username]);
-    }
-    else {
+    } else if ($password === $user['password']) {
+        // User has an old plaintext password; hash it and update DB
+        $newHashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $updateStmt = $conn->prepare("UPDATE users SET password = ? WHERE username = ?");
+        $updateStmt->bind_param("ss", $newHashedPassword, $username);
+        $updateStmt->execute();
+        $updateStmt->close();
+    } else {
         echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
     }
-}
-else
-{
+} else {
     echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
 }
 
