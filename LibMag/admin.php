@@ -18,8 +18,10 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'admin') {
 	<title>[ADMIN] LibMag</title>
 	<!--Website icon-->
 	<link rel="icon" type="image/x-icon" href="logo.ico">
-	<!--Relevant js files-->
+	<!--Relevant scripts-->
+	<script>window.userRole = 'admin';</script>
 	<script src="admin.js"></script>
+	<script src="books.js"></script>
 </head>
 
 <body>

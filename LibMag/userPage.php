@@ -4,8 +4,8 @@ session_start();
 
 // Restrict access to only users
 if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
-    header("Location: loginPage.php");
-    exit();
+	header("Location: loginPage.php");
+	exit();
 }
 ?>
 
@@ -18,14 +18,40 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
 	<title>LibMag Book Search</title>
 	<!--Website icon-->
 	<link rel="icon" type="image/x-icon" href="logo.ico">
+	<!--Relevant scripts-->
+	<script>window.userRole = 'user';</script>
+	<script src="books.js"></script>
 </head>
 
 <body>
-<?php include('navbar.php'); ?>
+	<?php include('navbar.php'); ?>
 
 	<header>
 		<h1>User Page</h1>
 	</header>
+	
+	<main>
+		<h2>Available Books</h2>
+		<table id="bookList">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Author</th>
+					<th>ISBN</th>
+					<th>Genre</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--Books inserted here by books.js-->
+			</tbody>
+		</table>
+	</main>
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      fetchBooks();
+    });
+  </script>
 </body>
 
 <footer>

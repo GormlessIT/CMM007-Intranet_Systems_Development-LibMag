@@ -13,8 +13,11 @@
       }
       ?>
     </span>
-    <button id="logout-btn">Logout</button>
   </div>
+  <!--Show logout button only if user is logged in-->
+  <?php if (isset($_SESSION["username"]) && isset($_SESSION["userRole"])): ?>
+    <button id="logout-btn">Logout</button>
+  <?php endif; ?>
 </div>
 
 <!--Set user info and handle logout-->
