@@ -4,13 +4,13 @@ session_start();
 
 // Redirect logged-in users to their respective pages
 if (isset($_SESSION['userRole'])) {
-    if ($_SESSION['userRole'] === 'admin') {
-        header("Location: admin.php");
-        exit();
-    } elseif ($_SESSION['userRole'] === 'user') {
-        header("Location: userPage.php");
-        exit();
-    }
+	if ($_SESSION['userRole'] === 'admin') {
+		header("Location: adminPage.php");
+		exit();
+	} elseif ($_SESSION['userRole'] === 'user') {
+		header("Location: userPage.php");
+		exit();
+	}
 }
 ?>
 
@@ -22,19 +22,20 @@ if (isset($_SESSION['userRole'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>LibMag Login</title>
 	<!--Website icon-->
-	<link rel="icon" type="image/x-icon" href="logo.ico">
+	<link rel="icon" type="image/x-icon" href="/custom-icons/logo.ico"> 
 	<!--Links to relevant js files-->
-	<script src="login.js"></script>
+	<script src="js/login.js"></script>
 </head>
 
 <body>
-<?php include('navbar.php'); ?>
+	<?php include('navbar.php'); ?>
 
 	<header>
 		<h1>LibMag - The Library Management System</h1>
 	</header>
 
 	<main>
+		<div id="loginMessage"></div>
 		<!--Login module-->
 		<div id="login">
 			<form id="loginForm" method="POST" action="login.php">
