@@ -28,7 +28,7 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'admin') {
 	<?php include('navbar.php'); ?>
 
 	<header>
-		<h1>Admin Page</h1>
+		<h1>LibMag Administrator Interface</h1>
 	</header>
 
 	<main>
@@ -91,7 +91,7 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'admin') {
 				<fieldset>
 					<!--Displaying existing books-->
 					<legend>Edit/Remove Books:</legend>
-					<table id="bookList">
+					<table class="bookList">
 						<thead>
 							<tr>
 								<th>Title</th>

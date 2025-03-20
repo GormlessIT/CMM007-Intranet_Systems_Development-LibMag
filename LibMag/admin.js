@@ -2,12 +2,10 @@
 
 //Function to fetch and display books from database
 function fetchBooks() {
-    fetch("books.php",
-        {
-            method: "GET",
-            headers: { 'Content-Type': 'application/json' }
-        }
-    )
+    fetch("books.php", {
+        method: "GET",
+        headers: { 'Content-Type': 'application/json' }
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
@@ -16,36 +14,39 @@ function fetchBooks() {
         })
         .then(data => {
             if (data.success) {
-                let table = document.getElementById("bookList").getElementsByTagName("tbody")[0];
-                table.innerHTML = "";   //Clears table body
-                data.books.forEach(book => {
-                    let newRow = table.insertRow(0); //0 = always appends to first table row
-                    //original ISBN stored in a data attribute (used as unique identifier)
-                    newRow.dataset.originalIsbn = book.isbn;
-                    newRow.insertCell(0).textContent = book.title;
-                    newRow.insertCell(1).textContent = book.author;
-                    newRow.insertCell(2).textContent = book.isbn;
-                    newRow.insertCell(3).textContent = book.genre;
-                    newRow.insertCell(4).textContent = book.quantity;
+                document.querySelectorAll(".bookList").forEach(table => {
+                    const tableBody = table.getElementsByTagName("tbody")[0];
+                    tableBody.innerHTML = ""; // Clears table body
 
-                    // Create cell with Remove/Edit buttons
-                    let actionCell = newRow.insertCell(5);
-                    let removeButton = document.createElement("button");
-                    removeButton.textContent = "Remove";
-                    removeButton.id = "removeBook";
-                    removeButton.type = "button";
-                    removeButton.onclick = function (event) {
-                        removeBook(removeButton, event);
-                    };
-                    let editButton = document.createElement("button");
-                    editButton.textContent = "Edit";
-                    editButton.id = "editBook";
-                    editButton.type = "button";
-                    editButton.onclick = function () {
-                        editBook(editButton);
-                    };
-                    actionCell.appendChild(removeButton);
-                    actionCell.appendChild(editButton);
+                    data.books.forEach(book => {
+                        const newRow = tableBody.insertRow(0);
+                        //original ISBN stored in a data attribute (used as unique identifier)
+                        newRow.dataset.originalIsbn = book.isbn;
+                        newRow.insertCell(0).textContent = book.title;
+                        newRow.insertCell(1).textContent = book.author;
+                        newRow.insertCell(2).textContent = book.isbn;
+                        newRow.insertCell(3).textContent = book.genre;
+                        newRow.insertCell(4).textContent = book.quantity;
+
+                        // Create cell with Remove/Edit buttons
+                        let actionCell = newRow.insertCell(5);
+                        let removeButton = document.createElement("button");
+                        removeButton.textContent = "Remove";
+                        removeButton.id = "removeBook";
+                        removeButton.type = "button";
+                        removeButton.onclick = function (event) {
+                            removeBook(removeButton, event);
+                        };
+                        let editButton = document.createElement("button");
+                        editButton.textContent = "Edit";
+                        editButton.id = "editBook";
+                        editButton.type = "button";
+                        editButton.onclick = function () {
+                            editBook(editButton);
+                        };
+                        actionCell.appendChild(removeButton);
+                        actionCell.appendChild(editButton);
+                    });
                 });
             } else {
                 console.error("Error fetching books: " + data.message);
@@ -127,7 +128,7 @@ function addBook() {
         });
 
     //Create a new row instance in the book display table
-    let table = document.getElementById("bookList").getElementsByTagName("tbody")[0];
+    let table = document.querySelector(".bookList").getElementsByTagName("tbody")[0];
     let newRow = table.insertRow(0);
 
     //Inserts the table cells with values entered in the form
@@ -290,6 +291,7 @@ function editBook(button) {
         cancelEdit(row, button, cancelButton);
     };
     actionCell.appendChild(cancelButton);
+    row.cancelButton = cancelButton;
 }
 
 //Function to cancel edited changes
