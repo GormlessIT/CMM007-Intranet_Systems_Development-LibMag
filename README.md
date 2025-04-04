@@ -16,7 +16,7 @@ Project submitted: [date]</b>
 <p>Role-based access for admins and users, login is based on username and password</p>
 
 <h3>Admin Page:</h3>
-<p>Book and user management (CRUD operations). Creating users includes an additional email field, which ensures uniqueness of user accounts (you cannot make multiple accoutns with the same email address)</p>
+<p>Book and user management (CRUD operations). Creating users includes an additional email field, which ensures uniqueness of user accounts (you cannot make multiple accounts with the same email address)</p>
 
 <h3>User Page:</h3>
 <p>User side searching, filtering and viewing available books</p>
@@ -29,9 +29,10 @@ Project submitted: [date]</b>
 <p>Authorisation is handled with a dropdown available on the login page (username, password AND user role must match i.e. if a user attempts to login as admin by choosing "Admin" on the dropdown, the database recognises this as an incorrect account combination)</p>
 
 <h1>System Requirements</h1>
+<p>This project has been created using the WAMP (Windows, Apache Server, MySQL, PHP) technology stack, handled through WAMPserver</p>
 <p>To run this project, you need:</p>
 <ul>
-  <li>WAMP or XAMPP (Apache, MySQL, PHP), WAMP is <b>heavily</b> recommend as this is what has been used to develop/test the web application</li>
+  <li>WAMP or XAMPP, WAMPserver is <b>heavily</b> recommend as this is what has been used to develop/test the web application</li>
   <li>PHP (version 8.3.14 recommended)</li>
   <li>MySQL (version 9.1.0 recommended)</li>
   <li>A modern web browser (Chrome has been used in development/testing)</li>
