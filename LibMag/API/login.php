@@ -50,9 +50,11 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     if (password_verify($password, $user["password"])) {
+        $_SESSION['userId'] = $user['userId'];
         $_SESSION['username'] = $username;
         $_SESSION['userRole'] = $role;
         echo json_encode(['success' => true, 'message' => 'Logged in successfully', 'role' => $role, 'username' => $username]);
+        exit;
     } else if ($password === $user['password']) {
         // User has an old plaintext password; hash it and update DB
         $newHashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -62,13 +64,17 @@ if ($result->num_rows > 0) {
         $updateStmt->close();
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
+        exit;
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
+    exit;
 }
 
-error_log("DB role: " . $user['role'] . " | Input role: " . $role);
-error_log("DB password: " . $user['password'] . " | Input password: " . $password);
+if (isset($user)) {
+    error_log("DB role: " . $user['role'] . " | Input role: " . $role);
+    error_log("DB password: " . $user['password'] . " | Input password: " . $password);
+}
 
 $stmt->close();
 $conn->close();
