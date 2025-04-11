@@ -82,7 +82,7 @@ if ($method == 'POST') {
     $stmt->close();
 
     // Check if user has already borrowed the book
-    $query = "SELECT * FROM loans WHERE userId = ? AND bookId = ? AND returnDate > NOW()";
+    $query = "SELECT * FROM loans WHERE userId = ? AND bookId = ? AND status = 'active'";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ii", $userId, $bookId);
     $stmt->execute();
@@ -94,7 +94,7 @@ if ($method == 'POST') {
     $stmt->close();
 
     // Check if user already has 3 active loans
-    $query = "SELECT COUNT(*) as loanCount FROM loans WHERE userId = ? AND returnDate > NOW()";
+    $query = "SELECT COUNT(*) as loanCount FROM loans WHERE userId = ? AND status = 'active'";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $userId);
     $stmt->execute();

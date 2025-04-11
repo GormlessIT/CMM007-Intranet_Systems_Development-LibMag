@@ -26,7 +26,7 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
 	<!--Relevant scripts-->
 	<script>window.userRole = 'user';</script>
 	<script src="js/books.js"></script>
-	<script src="js/bookSearch.js"></script>
+	<script src="js/search.js"></script>
 	<script src="js/loans.js"></script>
 </head>
 
@@ -73,29 +73,20 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
 		</table>
 
 		<h2>Loan Management</h2>
-		<fieldset>
-			<legend>Loaned Books:</legend>
-			<table id="loanList">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Author</th>
-						<th>ISBN</th>
-						<th>Genre</th>
-						<th>Loaned on</th>
-						<th>Return Date</th>
-						<th>Status</th>
-						<th>Returned on</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!--Loaned books inserted here by loans.js-->
-				</tbody>
-			</table>
-		</fieldset>
+		<div class="search-bar">
+			<label for="loanSearch">Search:</label>
+			<input type="text" id="loanSearch" placeholder="Search by Title, Author, or Genre">
+			<label for="statusFilter">Filter by Status:</label>
+			<select id="statusFilter">
+				<option value="">No filter</option>
+				<option value="Active">Active</option>
+				<option value="Returned">Returned</option>
+				<option value="Overdue">Overdue</option>
+			</select>
+		</div>
 
 		<fieldset>
-			<legend>Loan History:</legend>
+			<legend>Loaned Books:</legend>
 			<table id="loanList">
 				<thead>
 					<tr>
@@ -137,7 +128,8 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
 	</main>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			initializeSearchBar("bookSearch", "genreFilter", ".bookList");
+			initializeSearchBar("bookSearch", "genreFilter", ".bookList", 3);	// 3 = index of Genre column
+			initializeSearchBar("loanSearch", "statusFilter", "#loanList", 6);	// 6 = index of Status column
 			fetchBooks(); // Ensure books are fetched on page load
 			fetchLoans(); // Ensure loans are fetched on page load
 		});

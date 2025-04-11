@@ -101,27 +101,39 @@ function borrowBook(button, event, book) {
     openLoanModal(book);
 }
 
+function formatDateInputValue(dateObj) {
+    return dateObj.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+}
+
 // Function to open the loan modal
 function openLoanModal(book) {
-    // Populate modal with book information
-    document.getElementById("modalBookTitle").textContent = "Borrow: " + book.title;
-    document.getElementById("modalBookDetails").textContent = "When do you want to borrow \"" + book.title + "\" by " + book.author + "?";
+    const loanDateInput = document.getElementById("loanDate");
+    const returnDateInput = document.getElementById("returnDate");
 
-    // Set default dates: today and 7 days from now
-    let today = new Date();
-    let oneWeekLater = new Date();
+    const today = new Date();
+    const oneWeekLater = new Date(today);
     oneWeekLater.setDate(oneWeekLater.getDate() + 7);
 
-    // Format the dates in local time using date function
-    let formattedToday = formatLocalDateTime(today);
-    let formattedOneWeekLater = formatLocalDateTime(oneWeekLater);
+    const threeMonthsLater = new Date(today);
+    threeMonthsLater.setDate(threeMonthsLater.getDate() + 90);
 
-    document.getElementById("loanDate").value = formattedToday;
-    document.getElementById("returnDate").value = formattedOneWeekLater;
+    // Set loanDate field: today is default, can't select before today
+    loanDateInput.value = formatDateInputValue(today);
+    loanDateInput.min = formatDateInputValue(today); // Set min date to today
+    loanDateInput.max = formatDateInputValue(threeMonthsLater); // Set max date to 3 months from now
+
+    // Set returnDate field: 7 days from today is default, min 7, max 90
+    returnDateInput.value = formatDateInputValue(oneWeekLater);
+    returnDateInput.min = formatDateInputValue(oneWeekLater); // Set min date to 7 days from today
+    returnDateInput.max = formatDateInputValue(threeMonthsLater); // Set max date to 3 months from now
 
     // Store current book in a global variable for later use
     window.currentLoanBook = book;
 
+    // Populate modal with book information
+    document.getElementById("modalBookTitle").textContent = "Borrow: " + book.title;
+    document.getElementById("modalBookDetails").textContent = "When do you want to borrow \"" + book.title + "\" by " + book.author + "?";
+    
     // Display the modal
     document.getElementById("loanModal").style.display = "block";
 }

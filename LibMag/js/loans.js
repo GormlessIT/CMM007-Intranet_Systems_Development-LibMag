@@ -50,6 +50,11 @@ function fetchLoans() {
 function returnBook(button, event, loan) {
     event.preventDefault();
 
+    const confirmed = confirm(`Are you sure you want to return "${loan.title}" by ${loan.author}?`);
+    if (!confirmed) {
+        return; 
+    }
+
     const now = new Date();
     const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
         .toISOString()

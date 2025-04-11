@@ -24,7 +24,7 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'admin') {
 	<script>window.userRole = 'admin';</script>
 	<script src="js/admin.js"></script>
 	<script src="js/books.js"></script>
-	<script src="js/bookSearch.js"></script>
+	<script src="js/search.js"></script>
 </head>
 
 <body>
