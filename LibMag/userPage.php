@@ -94,6 +94,27 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
 			</table>
 		</fieldset>
 
+		<fieldset>
+			<legend>Loan History:</legend>
+			<table id="loanList">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Author</th>
+						<th>ISBN</th>
+						<th>Genre</th>
+						<th>Loaned on</th>
+						<th>Return Date</th>
+						<th>Status</th>
+						<th>Returned on</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--Loaned books inserted here by loans.js-->
+				</tbody>
+			</table>
+		</fieldset>
+
 		<!-- Borrow Book Modal -->
 		 <div id="loanModal" class="modal">
 			<div class="modal-content">

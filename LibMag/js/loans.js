@@ -50,9 +50,14 @@ function fetchLoans() {
 function returnBook(button, event, loan) {
     event.preventDefault();
 
+    const now = new Date();
+    const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " "); // Format to YYYY-MM-DD HH:MM:SS
     const returnData = {
         loanId: loan.loanId,
-        returnedOn: new Date().toISOString().slice(0, 19).replace("T", " ") // Format to YYYY-MM-DD HH:MM:SS
+        returnedOn: localTime
     };
 
     fetch("API/loans.php", {
@@ -60,23 +65,23 @@ function returnBook(button, event, loan) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(returnData)
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(result => {
-        if (result.success) {
-            alert("Book returned successfully!");
-            fetchLoans(); // Refresh the loan list
-            fetchBooks(); // Refresh the book list to update available quantity
-        } else {
-            console.error("Error returning book: " + result.message);
-        }
-    })
-    .catch(error => {
-        console.error("Error returning book: ", error);
-        alert("Error returning book: " + error.message);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.success) {
+                alert("Book returned successfully!");
+                fetchLoans(); // Refresh the loan list
+                fetchBooks(); // Refresh the book list to update available quantity
+            } else {
+                console.error("Error returning book: " + result.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error returning book: ", error);
+            alert("Error returning book: " + error.message);
+        });
 }

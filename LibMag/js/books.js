@@ -62,6 +62,29 @@ function fetchBooks() {
         });
 }
 
+// Date formatting to retrieve correct local time
+function formatLocalDateTime(dateObj) {
+    return new Date(dateObj.getTime() - dateObj.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+}
+
+// Upon book borrow, add time to date
+// This is necessary since input type=date since we do not want user control over time
+function combineDateWithCurrentTime(dateString) {
+    const now = new Date();
+    const [year, month, day] = dateString.split("-");
+    return new Date(
+        parseInt(year),
+        parseInt(month) - 1, // Months are zero-indexed
+        parseInt(day),
+        now.getHours(),
+        now.getMinutes(),
+        now.getSeconds()
+    );
+}
+
 // Opens a modal pop-up for book borrowing
 function borrowBook(button, event, book) {
     if (!book) {
@@ -84,17 +107,17 @@ function openLoanModal(book) {
     document.getElementById("modalBookTitle").textContent = "Borrow: " + book.title;
     document.getElementById("modalBookDetails").textContent = "When do you want to borrow \"" + book.title + "\" by " + book.author + "?";
 
-   // Set default dates: today and 7 days from now
-   let today = new Date();
-   let oneWeekLater = new Date();
-   oneWeekLater.setDate(oneWeekLater.getDate() + 7);
+    // Set default dates: today and 7 days from now
+    let today = new Date();
+    let oneWeekLater = new Date();
+    oneWeekLater.setDate(oneWeekLater.getDate() + 7);
 
-   // Format the dates as "YYYY-MM-DD HH:MM:SS"
-   let formattedToday = today.toISOString().slice(0, 19).replace("T", " ");
-   let formattedOneWeekLater = oneWeekLater.toISOString().slice(0, 19).replace("T", " ");
+    // Format the dates in local time using date function
+    let formattedToday = formatLocalDateTime(today);
+    let formattedOneWeekLater = formatLocalDateTime(oneWeekLater);
 
-   document.getElementById("loanDate").value = formattedToday;
-   document.getElementById("returnDate").value = formattedOneWeekLater;
+    document.getElementById("loanDate").value = formattedToday;
+    document.getElementById("returnDate").value = formattedOneWeekLater;
 
     // Store current book in a global variable for later use
     window.currentLoanBook = book;
@@ -140,13 +163,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Prepare loan data payload for submission using global user ID and currently selected book details
+            // Prepare loan data payload for submission 
+            // Uses global user ID, currently selected book details, and datetime formatting functions
+            const loanDateInput = combineDateWithCurrentTime(document.getElementById("loanDate").value);
+            const returnDateInput = combineDateWithCurrentTime(document.getElementById("returnDate").value);
+
             const loanData = {
                 userId: window.currentUserId,
                 bookId: window.currentLoanBook.bookId,
-                loanDate: new Date(document.getElementById("loanDate").value).toISOString().slice(0, 19).replace("T", " "),
-                returnDate: new Date(document.getElementById("returnDate").value).toISOString().slice(0, 19).replace("T", " "),
-            }
+                loanDate: formatLocalDateTime(loanDateInput),
+                returnDate: formatLocalDateTime(returnDateInput)
+            };
 
             // AJAX call to loans.php
             fetch("API/loans.php", {
