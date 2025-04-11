@@ -84,6 +84,7 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
 						<th>Genre</th>
 						<th>Loaned on</th>
 						<th>Return Date</th>
+						<th>Status</th>
 						<th>Returned on</th>
 					</tr>
 				</thead>

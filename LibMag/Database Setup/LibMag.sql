@@ -3,7 +3,7 @@ USE LibMag;
 
 CREATE TABLE users
 (
-    userID INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(150) UNIQUE NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE users
 
 CREATE TABLE books
 (
-    bookID INT AUTO_INCREMENT PRIMARY KEY,
+    bookId INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     isbn CHAR(13) UNIQUE NOT NULL,
@@ -22,11 +22,13 @@ CREATE TABLE books
 
 CREATE TABLE loans
 (
-    loanID INT AUTO_INCREMENT PRIMARY KEY,
-    userID INT,
-    bookID INT,
-    loanDate DATETIME,
-    returnDate DATETIME,
+    loanId INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT NOT NULL,
+    bookId INT NOT NULL,
+    loanDate DATETIME NOT NULL,
+    returnDate DATETIME NOT NULL,
+    status ENUM('active', 'returned', 'overdue') NOT NULL DEFAULT 'active',
+    returnedOn DATETIME,
     FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (bookId) REFERENCES books(bookId)
 );

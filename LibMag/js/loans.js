@@ -26,10 +26,17 @@ function fetchLoans() {
                     newRow.insertCell(3).textContent = loan.genre;
                     newRow.insertCell(4).textContent = loan.loanDate;
                     newRow.insertCell(5).textContent = loan.returnDate;
-                    newRow.insertCell(6).textContent = loan.returnedOn || ""; // Returned on date can be empty
+                    newRow.insertCell(6).textContent = loan.status;
+                    newRow.insertCell(7).textContent = loan.returnedOn || ""; // Returned on date can be empty
 
-                    const actionCell = newRow.insertCell(7);
-                    actionCell.appendChild(createButton("Return Book", null, "button", event => returnBook(event.target, event, loan)));
+                    // Return book button
+                    const actionCell = newRow.insertCell(8);
+                    // Only show button if loan status is not 'returned' 
+                    if (loan.status !== 'returned') {
+                        actionCell.appendChild(createButton("Return Book", null, "button", event => returnBook(event.target, event, loan)));
+                    } else {
+                        actionCell.textContent = ""; // Don't render button
+                    }
                 });
             } else {
                 console.error("Error fetching loans: " + data.message);
@@ -40,6 +47,36 @@ function fetchLoans() {
         });
 }
 
-function returnBook(button, event, book) {
-    //TODO: Book return logic
+function returnBook(button, event, loan) {
+    event.preventDefault();
+
+    const returnData = {
+        loanId: loan.loanId,
+        returnedOn: new Date().toISOString().slice(0, 19).replace("T", " ") // Format to YYYY-MM-DD HH:MM:SS
+    };
+
+    fetch("API/loans.php", {
+        method: "PATCH",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(returnData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(result => {
+        if (result.success) {
+            alert("Book returned successfully!");
+            fetchLoans(); // Refresh the loan list
+            fetchBooks(); // Refresh the book list to update available quantity
+        } else {
+            console.error("Error returning book: " + result.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error returning book: ", error);
+        alert("Error returning book: " + error.message);
+    });
 }

@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         alert("Book borrowed successfully!");
                         closeLoanModal();
                         fetchBooks(); // Refresh book list
-                        //TODO: Refresh Borrowed books list
+                        fetchLoans(); // Refresh loan list
                     } else {
                         alert("Error borrowing book: " + result.message);
                     }
