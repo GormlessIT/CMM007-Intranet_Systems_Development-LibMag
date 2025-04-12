@@ -4,8 +4,8 @@ session_start();
 
 // Restrict access to only admins
 if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'admin') {
-    header("Location: loginPage.php");
-    exit();
+	header("Location: loginPage.php");
+	exit();
 }
 
 // Set inactivity timeout - inactivity based on lack of requests to the server
@@ -30,6 +30,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 	<link rel="icon" type="image/x-icon" href="/custom-icons/logo.ico"> <!-- Corrected path -->
 	<!--Relevant styles-->
 	<link rel="stylesheet" href="css/search-bar.css">
+	<link rel="stylesheet" href="css/main-style.css">
 	<!--Relevant scripts-->
 	<script>window.userRole = 'admin';</script>
 	<script src="js/admin.js"></script>
@@ -69,9 +70,8 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 						<!--ISBN box-->
 						<div id="bookISBN">
 							<label for="isbn">ISBN:</label>
-							<input type="text" name="isbn" id="isbn" placeholder="Enter ISBN" required minlength="13"
-								maxlength="13">
-							<p>an ISBN number must be 13 digits long</p>
+							<input type="text" name="isbn" id="isbn" placeholder="ISBN must be exactly 13 digits"
+								required minlength="13" maxlength="13">
 						</div>
 						<!--Genre box-->
 						<div id="bookGenre">
@@ -104,7 +104,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 				<fieldset>
 					<!--Displaying existing books-->
 					<legend>Edit/Remove Books:</legend>
-					
+
 					<div class="search-bar">
 						<label for="bookSearchAdmin">Search:</label>
 						<input type="text" id="bookSearchAdmin" placeholder="Search by Title, Author, or Genre">
@@ -121,7 +121,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 							<option value="Thriller">Thriller</option>
 						</select>
 					</div>
-					
+
 					<table class="bookList">
 						<thead>
 							<tr>
@@ -159,15 +159,22 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 
 						<div id="passwordContainer">
 							<label for="password">Password:</label>
-							<input type="password" name="password" id="password"
-								placeholder="Enter Temporary Password Here" required>
+							<div class="password-wrapper">
+								<input type="password" name="password" id="password"
+									placeholder="Enter Temporary Password Here" required>
+								<button type="button" class="showHidePassword">Show</button>
+							</div>
 						</div>
 
 						<div id="confirmPasswordContainer">
-							<label for="confirmPassword">Confirm Password:</label>
-							<input type="password" name="confirmPassword" id="confirmPassword"
-								placeholder="Confirm Password" required>
+							<label for="confirmPassword">Password:</label>
+							<div class="password-wrapper">
+								<input type="password" name="password" id="confirmPassword"
+									placeholder="Enter Temporary Password Here" required>
+								<button type="button" class="showHidePassword">Show</button>
+							</div>
 						</div>
+
 
 						<div id="userRole">
 							<label for="role">Role:</label>
@@ -215,12 +222,12 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 		</div>
 	</main>
 	<script>
-		document.addEventListener("DOMContentLoaded", function() {
+		document.addEventListener("DOMContentLoaded", function () {
 			initializeSearchBar("bookSearchAdmin", "genreFilterAdmin", ".bookList");
 
 			// Search functionality for users
 			const userSearch = document.getElementById("userSearch");
-			userSearch.addEventListener("input", function() {
+			userSearch.addEventListener("input", function () {
 				const filter = userSearch.value.toLowerCase();
 				document.querySelectorAll("#userList tbody tr").forEach(row => {
 					const text = row.textContent.toLowerCase();
@@ -230,7 +237,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 
 			// Filter users by role
 			const roleFilter = document.getElementById("roleFilter");
-			roleFilter.addEventListener("change", function() {
+			roleFilter.addEventListener("change", function () {
 				const selectedRole = roleFilter.value.toLowerCase();
 				document.querySelectorAll("#userList tbody tr").forEach(row => {
 					const role = row.cells[3]?.textContent.toLowerCase();

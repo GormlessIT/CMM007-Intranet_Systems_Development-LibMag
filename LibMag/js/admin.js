@@ -814,9 +814,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Cache DOM elements
     const addButton = document.getElementById("addBook");
     const registerForm = document.querySelector("#addUser form");
-    const pwdInput = document.querySelector("div#passwordContainer > input");
-    const cpwdInput = document.querySelector("div#confirmPasswordContainer > input");
-
+    
     // Attach add book form submit event
     if (addButton) {
         addButton.addEventListener("click", addBook);
@@ -829,20 +827,21 @@ document.addEventListener("DOMContentLoaded", function () {
             registerUser();
         });
     }
-
-    // Setup show/hide toggle for password fields
-    [pwdInput, cpwdInput].forEach(input => {
-        if (input) {
-            const toggleButton = document.createElement("button");
-            toggleButton.type = "button";
-            toggleButton.textContent = "Show";
-            toggleButton.addEventListener("click", function () {
-                input.type = input.type === "password" ? "text" : "password";
-                toggleButton.textContent = input.type === "password" ? "Show" : "Hide";
-            });
-            input.parentNode.appendChild(toggleButton);
-        }
-    });
+     // Attach toggle functionality to the existing toggle buttons in the register form
+  const toggleButtons = document.querySelectorAll("#passwordContainer .showHidePassword, #confirmPasswordContainer .showHidePassword");
+  
+  toggleButtons.forEach(button => {
+    // Find the input in the same password-wrapper as this button
+    const passwordInput = button.parentElement.querySelector("input");
+    if (passwordInput) {
+      button.addEventListener("click", function () {
+        // Toggle the input type and update the button text accordingly
+        const isPassword = passwordInput.type === "password";
+        passwordInput.type = isPassword ? "text" : "password";
+        button.textContent = isPassword ? "Hide" : "Show";
+      });
+    }
+  });
 
     // Load books and users from database when page loads
     fetchBooks();

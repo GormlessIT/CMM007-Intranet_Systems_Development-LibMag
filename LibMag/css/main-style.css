@@ -1,0 +1,202 @@
+/* Global settings */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header, footer {
+    background-color: #2d1f1a;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+main {
+    padding: 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+h1, h2, h3, legend {
+    color: #ff4800;
+}
+
+fieldset {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+legend {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+/* Form elements */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+form input, form select, form button:not(.showHidePassword) {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+form button {
+    background-color: #442E26;
+    color: white;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #5e3a30;
+}
+
+/* Password field with inline toggle button */
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.password-wrapper input {
+    flex: 1;
+    padding-right: 80px; 
+}
+
+.showHidePassword {
+    width: 50px;
+    margin-left: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    background-color: #442E26;
+    color: white;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    height: 34px;
+    line-height: 1;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.showHidePassword:hover {
+    background-color: #5e3a30;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #e8e1dd;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Search bar area */
+.search-bar {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-bar label {
+    margin-right: 5px;
+    font-weight: 500;
+}
+
+.search-bar input, .search-bar select {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Button reusability */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    background-color: #4a3b36;
+    color: #fff;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: #362922;
+}
+
+/* Profile message footer */
+footer p {
+    margin: 0;
+    padding: 10px;
+    font-size: 14px;
+    color: #f1f1f1;
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    main {
+        padding: 10px;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    form input, form select, form button {
+        font-size: 13px;
+    }
+}

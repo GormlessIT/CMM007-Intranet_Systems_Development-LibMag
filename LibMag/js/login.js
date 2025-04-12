@@ -2,6 +2,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
     if (!loginForm) return console.error("Element #loginForm not found in the document!");
 
+    // Get all show/hide password buttons
+    const showHidePasswordButtons = document.querySelectorAll(".showHidePassword");
+
+    // Add event listeners for all show/hide buttons
+    showHidePasswordButtons.forEach(button => {
+        const passwordField = document.getElementById("password"); // Get the corresponding password field
+
+        button.addEventListener("click", function () {
+            const isPassword = passwordField.type === "password";
+            passwordField.type = isPassword ? "text" : "password";
+            button.textContent = isPassword ? "Hide" : "Show";
+        });
+    });
+
+    // Handle form submission
     loginForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -29,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     setTimeout(() => {
                         window.location.href = result.role === 'admin' ? 'adminPage.php' : 'userPage.php';
-                    }, 3000);
+                    }, 2000);
                 } else {
                     alert(result.message);
                 }
@@ -38,14 +53,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error('Error:', error);
                 alert('Failed to login. Please try again later.');
             });
-    });
-
-    const showHidePasswordButton = document.getElementById("showHidePassword");
-    const passwordField = document.getElementById("password");
-
-    showHidePasswordButton.addEventListener("click", function () {
-        const isPassword = passwordField.type === "password";
-        passwordField.type = isPassword ? "text" : "password";
-        showHidePasswordButton.textContent = isPassword ? "Hide" : "Show";
     });
 });

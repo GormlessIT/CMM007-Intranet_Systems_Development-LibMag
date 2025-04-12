@@ -31,6 +31,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 	<!--Relevant styles-->
 	<link rel="stylesheet" href="css/search-bar.css">
 	<link rel="stylesheet" href="css/modal.css">
+	<link rel="stylesheet" href="css/main-style.css">
 	<!--Embed user ID from the session into a global JS variable-->
 	<script>window.currentUserId = <?php echo isset($_SESSION['userId']) ? json_encode($_SESSION['userId']) : 'null' ?>;</script>
 	<!--Relevant scripts-->

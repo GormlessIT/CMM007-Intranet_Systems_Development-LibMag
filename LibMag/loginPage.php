@@ -22,8 +22,10 @@ if (isset($_SESSION['userRole'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>LibMag Login</title>
 	<!--Website icon-->
-	<link rel="icon" type="image/x-icon" href="/custom-icons/logo.ico"> 
-	<!--Links to relevant js files-->
+	<link rel="icon" type="image/x-icon" href="/custom-icons/logo.ico">
+	<!--Relevant styles-->
+	<link rel="stylesheet" href="css/main-style.css">
+	<!--Relevant scripts-->
 	<script src="js/login.js"></script>
 </head>
 
@@ -41,26 +43,25 @@ if (isset($_SESSION['userRole'])) {
 			<form id="loginForm" method="POST" action="login.php">
 				<fieldset>
 					<!--Form title-->
-					<legend>Login</legend>
-					<p><span style="color:red;">*</span> indicates mandatory fields</p>
-					<p>Username and Password are maximum 15 characters</p>
+					<legend>Please login below</legend>
+					<p><span style="color:red;">*</span> Indicates mandatory fields</p>
 					<!--Username box-->
 					<div id="usernameField">
-						<label for="username">Username: <span style="color: red;">*</span></label>
-						<input type="text" name="username" id="username" placeholder="Enter Username" required
-							maxlength="255" size="25">
+						<label for="username">Username <span style="color: red;">*</span></label>
+						<input type="text" name="username" id="username" placeholder="Enter Username" required>
 					</div>
 					<!--Password box-->
 					<div id="passField">
-						<label for="password">Password: <span style="color: red;">*</span></label>
-						<input type="password" name="password" id="password" placeholder="Enter Password" required
-							maxlength="255" size="25">
-						<button type="button" id="showHidePassword">Show</button>
+						<label for="password">Password <span style="color: red;">*</span></label>
+						<div class="password-wrapper">
+							<input type="password" name="password" id="password" placeholder="Enter Password" required>
+							<button type="button" class="showHidePassword">Show</button>
+						</div>
 					</div>
 
 					<!--User Role dropdown-->
 					<div id="roleField">
-						<label for="role">User Role: <span style="color:red;">*</span></label>
+						<label for="role">User Role <span style="color:red;">*</span></label>
 						<select id="role" name="role">
 							<option value="">--Select--</option>
 							<option value="user">User</option>
@@ -68,7 +69,7 @@ if (isset($_SESSION['userRole'])) {
 						</select>
 					</div>
 					<!--Login button-->
-					<button type="submit" id="loginButton">Login</button>
+					<button type="submit" id="loginButton">Login to LibMag!</button>
 				</fieldset>
 			</form>
 		</div>
