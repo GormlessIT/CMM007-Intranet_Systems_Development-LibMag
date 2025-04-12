@@ -83,6 +83,7 @@ function returnBook(button, event, loan) {
                 fetchBooks(); // Refresh the book list to update available quantity
             } else {
                 console.error("Error returning book: " + result.message);
+                alert("Error returning book: " + result.message);
             }
         })
         .catch(error => {
