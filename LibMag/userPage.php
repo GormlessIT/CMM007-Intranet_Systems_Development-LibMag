@@ -7,6 +7,16 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'user') {
 	header("Location: loginPage.php");
 	exit();
 }
+
+// Set inactivity timeout - inactivity based on lack of requests to the server
+$timeoutDuration = 1800; // 30 minutes in seconds
+if (isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > $timeoutDuration)) {
+	session_unset(); // Unset session variables
+	session_destroy(); // Destroy the session i.e. logout
+	header("Location: loginPage.php"); // Redirect to login page
+	exit();
+}
+$_SESSION['lastActivity'] = time(); // Update last activity time
 ?>
 
 <!DOCTYPE html>

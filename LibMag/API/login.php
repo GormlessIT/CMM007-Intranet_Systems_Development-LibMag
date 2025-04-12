@@ -67,7 +67,7 @@ if ($result->num_rows > 0) {
         exit;
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
+    echo json_encode(['success' => false, 'message' => 'Invalid username, password and role combination. Please ensure you are attempting to login as the correct role with valid credentials, and try again.']);
     exit;
 }
 
