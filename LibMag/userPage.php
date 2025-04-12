@@ -55,7 +55,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 			<label for="bookSearch">Search:</label>
 			<input type="text" id="bookSearch" placeholder="Search by Title, Author, or Genre">
 			<label for="genreFilter">Filter by Genre:</label>
-			<select id="genreFilter">
+			<select class="filter" id="genreFilter">
 				<option value="">All Genres</option>
 				<option value="Action">Action</option>
 				<option value="Adventure">Adventure</option>
@@ -76,6 +76,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 					<th>ISBN</th>
 					<th>Genre</th>
 					<th>Quantity</th>
+					<th class="action-column">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -88,7 +89,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 			<label for="loanSearch">Search:</label>
 			<input type="text" id="loanSearch" placeholder="Search by Title, Author, or Genre">
 			<label for="statusFilter">Filter by Status:</label>
-			<select id="statusFilter">
+			<select class="filter" id="statusFilter">
 				<option value="">No filter</option>
 				<option value="Active">Active</option>
 				<option value="Returned">Returned</option>
@@ -109,6 +110,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 						<th>Return Date</th>
 						<th>Status</th>
 						<th>Returned on</th>
+						<th class="action-column">Actions</th>
 					</tr>
 				</thead>
 				<tbody>

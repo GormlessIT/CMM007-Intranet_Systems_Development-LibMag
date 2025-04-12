@@ -109,7 +109,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 						<label for="bookSearchAdmin">Search:</label>
 						<input type="text" id="bookSearchAdmin" placeholder="Search by Title, Author, or Genre">
 						<label for="genreFilterAdmin">Filter by Genre:</label>
-						<select id="genreFilterAdmin">
+						<select class="filter" id="genreFilterAdmin">
 							<option value="">All Genres</option>
 							<option value="Action">Action</option>
 							<option value="Adventure">Adventure</option>
@@ -130,6 +130,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 								<th>ISBN</th>
 								<th>Genre</th>
 								<th>Quantity</th>
+								<th class="action-column">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -175,7 +176,6 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 							</div>
 						</div>
 
-
 						<div id="userRole">
 							<label for="role">Role:</label>
 							<select id="role" name="role">
@@ -198,7 +198,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 						<label for="userSearch">Search:</label>
 						<input type="text" id="userSearch" placeholder="Search by Username, Email, or Role">
 						<label for="roleFilter">Filter by Role:</label>
-						<select id="roleFilter">
+						<select class="filter" id="roleFilter">
 							<option value="">All Roles</option>
 							<option value="user">User</option>
 							<option value="admin">Admin</option>
@@ -211,6 +211,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 								<th>Email</th>
 								<th>Password</th>
 								<th>Role</th>
+								<th class="action-column">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
