@@ -127,18 +127,42 @@ Listen [::0]:8081</li>
   <li>Login using credentials provided above</li>
 </ol>
 
-<h1>Project Structure [WIP - Update with up to date files]</h1>
+<h1>Project Structure</h1>
 <p><pre>
-LibMag/
-│-- www/                         # Web root directory used by WAMP
-│   ├── login.html               # Login page
-│   ├── admin.html               # Admin page
-│   ├── user.html                # User page
-│   ├── book.html                # Book loan module
-│   ├── login.php                # PHP authentication logic
-│   ├── loginJS.js               # Login-related JavaScript
-│   ├── adminJS.js               # Admin-related JavaScript
-│   ├── LibMag.sql               # Database schema
-│   ├── InsertTestUsers.sql      # Sample user test data
-│   ├── logo.ico                 # Website Icon
-</pre></p>
+│-- www/           # Web root directory used by WAMP
+|   LibMag/
+    │   adminPage.php            # Admin Dashboard Page
+    │   loginPage.php            # Login Page
+    │   navbar.php               # Navbar
+    │   userPage.php             # User Page
+    │
+    ├───API                 # Contains all API calls
+    │       bookCRUD.php         # Allows admins to create, retrieve, update and delete books
+    │       loans.php            # Handles loans being taken out and loan returns by users
+    │       login.php            # Handles login by starting session
+    │       logout.php           # Handles logout by destroying user session
+    │       register.php         # Handles a new user being registerd by an admin
+    │       userCRUD.php         # Allows admins to create, retrieve, update and delete users
+    │
+    ├───css                 # Contains all styles
+    │       main-style.css       # Universal style applied to all pages
+    │       modal.css            # Styles applied to book loan modal popup on user page
+    │       navbar.css           # Style applied to navbar
+    │       search-bar.css       # Styles applied to search bars and filters
+    │
+    ├───custom-icons        # Contains custom icons made for the website
+    │       logo.ico             # The website's logo icon located on browser tab
+    │       profile-icon.ico     # Default profile picture icon
+    │
+    ├───Database Setup      # Files used for initial database setup
+    │       generateHashes.php   # (optional) used to regenerate initial passwords if they don't work
+    │       InsertTestUsers.sql  # Inserts test users into the database
+    │       LibMag.sql           # Initial create of database
+    │
+    └───js                  # JavaScript logic files
+            admin.js             # Logic for admin page: fetchBook(), addBook(), removeBook(), editBook(), cancelEdit(), saveChanges(), fetchUsers(), registerUser(), removeUser(), editUser(), cancelUserEdit(), saveUserChanges() and event listeners
+            books.js             # Logic for fetching books (as this is universal between admin and user page), and borrowBook(), openLoanModal(), closeLoanModal() functionality
+            loans.js             # Logic for fetching loans and returnBook()
+            login.js             # Logic for login functionality
+            search.js            # Logic for search bar and filtering functionality
+    </pre></p>
