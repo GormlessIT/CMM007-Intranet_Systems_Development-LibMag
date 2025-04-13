@@ -123,7 +123,7 @@ Listen [::0]:8081</li>
 <h1>Running the Application</h1>
 <ol>
   <li>Ensure WAMP services are running. To do this, hover over the WAMP icon in the system tray, the icon should be green and say "All services running"</li>
-  <li>Open the website by going to http://localhost:8081/login.html (again, this may be http://localhost:80/login.html dependant on port setup)</li>
+  <li>Open the website by going to http://localhost:8081/loginPage.php (again, this may be http://localhost:80/loginPage.php dependant on port setup)</li>
   <li>Login using credentials provided above</li>
 </ol>
 
