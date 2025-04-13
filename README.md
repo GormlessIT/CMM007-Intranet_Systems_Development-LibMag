@@ -9,30 +9,28 @@ Project submitted: [date]</b>
 </pre>
 
 <h1>Project Overview</h1>
-<p>LibMag is a web application providing functionality for administrators to manage books and user accounts, and for users to view and loan books</p>
+<p>LibMag is a web application designed for managing library resources, providing functionality for administrators to manage books and user accounts, and for users to search for books, borrow and return books</p>
 
 <h2>Features</h2>
 <h3>Login Page:</h3>
 <p>Role-based access for admins and users, login is based on username and password</p>
 
+<p>Authentication is achieved with a MySQL database</p>
+
+<p>Authorisation is handled with a dropdown available on the login page (username, password AND user role must match i.e. if a user attempts to login as admin by choosing "Admin" on the dropdown, the database recognises this as an incorrect account combination)</p>
+
 <h3>Admin Page:</h3>
 <p>Book and user management (CRUD operations). Creating users includes an additional email field, which ensures uniqueness of user accounts (you cannot make multiple accounts with the same email address)</p>
 
 <h3>User Page:</h3>
-<p>User side searching, filtering and viewing available books</p>
-
-<h3>Book Loan Page:</h3>
-<p>Fuctionality for viewing user's borrowed books with due dates, providing opportunity to return books</p>
-
-<p>Authentication is achieved with a MySQL database</p>
-
-<p>Authorisation is handled with a dropdown available on the login page (username, password AND user role must match i.e. if a user attempts to login as admin by choosing "Admin" on the dropdown, the database recognises this as an incorrect account combination)</p>
+<p>User side searching, filtering and viewing available books, and fuctionality for viewing user's borrowed books with due dates, providing opportunity to return books</p>
 
 <h1>System Requirements</h1>
 <p>This project has been created using the WAMP (Windows, Apache Server, MySQL, PHP) technology stack, handled through WAMPserver</p>
 <p>To run this project, you need:</p>
 <ul>
-  <li>WAMP or XAMPP, WAMPserver is <b>heavily</b> recommend as this is what has been used to develop/test the web application</li>
+  <li>WAMPserver is <b>heavily</b> recommend as this is what has been used to develop/test the web application, the instructions below apply to how WAMPserver is setup and may not be relevant to other methods used for setting up the application</li>
+  <li>Otherwise, you can set up a WAMP or XAMPP stack using a preferred method</li>
   <li>PHP (version 8.3.14 recommended)</li>
   <li>MySQL (version 9.1.0 recommended)</li>
   <li>A modern web browser (Chrome has been used in development/testing)</li>
@@ -49,13 +47,13 @@ Project submitted: [date]</b>
   
   <li>
     <ul><h3>(if necessary) Configure Apache server ports</h3>
+      <b>(This step may be optional, WAMP uses port 80 for localhost by default, but on my system this was already taken up by another process necessary for a different project, so switching to a different port, in this case 8081 was necessary. If things unexpectedly break when running the web app, this may be the reason)</b>
       <li>(if necessary) Configure Apache to user port 8081</li>
       <li>Check the port WAMP is using for the Apache server by opening WAMP in the system icon tray > Apache > httpd.conf</li>
       <li>Ensure any "Listen" text is set to Listen 8081, e.g. Listen 0.0.0.0:8081
 Listen [::0]:8081</li>
       <li>Restart WAMP by opening WAMP in the system icon tray > Restart all services</li>
       <li><em>To check which port WAMP is using: Open WAMP in system icon tray > Hover over Apache > At the bottom of the window you should see "Port used by Apache: [your port number here]"</em></li>
-      <li><b>(This step may be optional, WAMP uses port 80 for localhost by default, but on my system this was already taken up by another process necessary for a different project, so switching to a different port, in this case 8081 was necessary. The web app files expect port 8081, so if things unexpectedly break when running the web app, this may be the reason)</b></li>
     </ul>
   </li>
 
@@ -111,8 +109,8 @@ Listen [::0]:8081</li>
         </table>
       </li>
     </ul>
-    <p><b>Important Note: The passwords in the database are securely hashed for security reasons. However you can login using the plaintext credentials (userpass1, userpass2 etc.) provided above</b></p>
-    <p><i>If for any reason, the hashed passwords in InsertTestUsers.sql do not work, please follow the steps below to re-generate them:</i></p>
+    <p><b>Important Note: The passwords in the database are securely hashed for security reasons. Plaintext credentials provided above are for DEMONSTRATION PURPOSES ONLY and should be removed given application deployment</b></p>
+    <p><i>If for any reason, the hashed passwords in InsertTestUsers.sql do not work for log in, please follow the steps below to re-generate them:</i></p>
     <ol>
       <li>Open generateHashes.php in a terminal</li>
       <li>Run: php generateHashes.php</li>
