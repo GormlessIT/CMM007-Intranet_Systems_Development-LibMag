@@ -41,7 +41,7 @@ Project submitted: 14/04/2025</b>
   
   <li>
     <ul><h3>Install WAMP</h3>
-    <li>Download and setup WAMPserver from https://www.wampserver.com/en/, following the instructions carefully</li>
+    <li>Download and setup WAMPserver from https://www.wampserver.com/en/, following the instructions carefully (Quick access link: https://sourceforge.net/projects/wampserver/files/latest/download)</li>
     </ul>
   </li>
   
