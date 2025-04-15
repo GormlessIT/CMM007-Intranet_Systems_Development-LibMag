@@ -5,7 +5,9 @@ Repository for CMM007 Intranet Systems Development coursework assessment MSc IT 
 <b>Title: LibMag - The Library Management System 
 Created by: Oliwer Szmytkowski 
 Repository first created: 27/01/2025 
-Project submitted: 14/04/2025</b>
+Demonstration recorded: 14/04/2025 18:00
+Project submitted: 15/04/2025
+Submission Deadline: 17/04/2025 13:00</b>
 </pre>
 
 <h1>Project Overview</h1>
