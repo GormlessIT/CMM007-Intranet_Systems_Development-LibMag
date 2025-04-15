@@ -66,6 +66,7 @@ Listen [::0]:8081</li>
   <li>
     <ul><h3>Import MySQL Database</h3>
       <li>Open phpMyAdmin (go to http://localhost:8081/phpmyadmin/ in your browser, this may be http://localhost:80/phpmyadmin if your port is configured as 80)</li>
+      <li>Login using "root" as username and an empty password</li>
       <li>Click on the "Import" tab</li>
       <li>Select the provided LibMag.sql file and click Import</li>
       <li>The database should now be created on your system, to import sample test users, repeat the process with the provided InsertTestUsers.sql file</li>
