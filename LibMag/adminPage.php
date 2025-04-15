@@ -168,7 +168,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 						</div>
 
 						<div id="confirmPasswordContainer">
-							<label for="confirmPassword">Password:</label>
+							<label for="confirmPassword">Confirm Password:</label>
 							<div class="password-wrapper">
 								<input type="password" name="password" id="confirmPassword"
 									placeholder="Enter Temporary Password Here" required>
@@ -224,7 +224,7 @@ $_SESSION['lastActivity'] = time(); // Update last activity time
 	</main>
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
-			initializeSearchBar("bookSearchAdmin", "genreFilterAdmin", ".bookList");
+			initializeSearchBar("bookSearchAdmin", "genreFilterAdmin", ".bookList", 3);	// 3 = index of Genre column
 
 			// Search functionality for users
 			const userSearch = document.getElementById("userSearch");
