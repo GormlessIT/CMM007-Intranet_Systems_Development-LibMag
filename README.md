@@ -40,7 +40,7 @@ Project submitted: 14/04/2025</b>
 <ol>
   
   <li>
-    <ul><h3>Install WAMP</h3>
+    <ul><h3>Install WAMPserver</h3>
     <li>Download and setup WAMPserver from https://www.wampserver.com/en/, following the instructions carefully (Quick access link: https://sourceforge.net/projects/wampserver/files/latest/download)</li>
     </ul>
   </li>
@@ -58,8 +58,14 @@ Listen [::0]:8081</li>
   </li>
 
   <li>
-    <ul><h3>Copy LibMag files into WAMP's www directory</h3>
-      <li>Copy WHOLE LibMag FOLDER to WAMP's www directory e.g. D:\wamp\www\LibMag</li>
+    <ul><h3>Setup WAMPserver virtual host</h3>
+      <li>Copy WHOLE LibMag FOLDER to WAMP's www directory e.g. D:/wamp/www/LibMag</li>
+      <li>In your browser, go to http://localhost:[your port number]</li>
+      <li>You should see WAMPserver's configuration page, under "Tools" select "Add a Virtual Host"</li>
+      <li>In "Name of Virtual Host" type in something recognisable like LibMag</li>
+      <li>In "Complete absolute path" enter your project's directory e.g. D:/wamp/www/LibMag and click "Start the creation/modification of the VirtualHost"</li>
+      <li>Click on WAMPserver in your system icon tray, and "Restart all services"</li>
+      <li>Now when you navigate to http://localhost:[your port number], under "Your VirtualHost" you will be able to see your new virtual host</li>
     </ul>
   </li>
 
@@ -124,7 +130,7 @@ Listen [::0]:8081</li>
 <h1>Running the Application</h1>
 <ol>
   <li>Ensure WAMP services are running. To do this, hover over the WAMP icon in the system tray, the icon should be green and say "All services running"</li>
-  <li>Open the website by going to http://localhost:8081/loginPage.php (again, this may be http://localhost:80/loginPage.php dependant on port setup)</li>
+  <li>Open the website by going to http://localhost:[your port number], you will be taken to WAMPserver's configuration page, under "Your Virtual Host" you should see your newly created Virtual Host (as seen in Installation/Setup step 3), click on this host, and you may access the website from loginPage.php</li>
   <li>Login using credentials provided above</li>
 </ol>
 
